@@ -164,6 +164,8 @@ class Price(dict):
             raise ValueError("Couldn't parse 'Price'.")
 
     def __setitem__(self, key, value):
+        """ Here we set "price" if we change quote or base
+        """
         dict.__setitem__(self, key, value)
         if ("quote" in self and
                 "base" in self and
@@ -445,7 +447,7 @@ class Order(Price):
             """ Load from object 1.7.xxx
             """
             super(Order, self).__init__(args[0]["sell_price"], bitshares_instance=self.bitshares)
-            self["id"] = args[0].get("id")
+            self.update(args[0])
         elif (
             isinstance(args[0], dict) and
             "min_to_receive" in args[0] and
@@ -453,14 +455,21 @@ class Order(Price):
         ):
             """ Load from an operation
             """
+            # Take all the arguments with us
+            self.update(args[0])
             super(Order, self).__init__(
                 Amount(args[0]["min_to_receive"], bitshares_instance=self.bitshares),
                 Amount(args[0]["amount_to_sell"], bitshares_instance=self.bitshares),
             )
-            self["id"] = args[0].get("id")
         else:
             # Try load Order as Price
             super(Order, self).__init__(*args, bitshares_instance=self.bitshares, **kwargs)
+
+        self["for_sale"] = Amount(
+            {"amount": self["for_sale"],
+             "asset_id": self["base"]["asset"]["id"]},
+            bitshares_instance=self.bitshares
+        )
 
     def __repr__(self):
         if "deleted" in self and self["deleted"]:
@@ -471,10 +480,15 @@ class Order(Price):
                 t += "(%s) " % self["time"]
             if "type" in self and self["type"]:
                 t += "%s " % str(self["type"])
-            if "quote" in self and self["quote"]:
-                t += "%s " % str(self["quote"])
-            if "base" in self and self["base"]:
-                t += "%s " % str(self["base"])
+            if "for_sale" in self and self["for_sale"]:
+                t += "{} {} ".format(
+                    str(Amount(
+                        float(self["for_sale"]) / self["price"],
+                        self["quote"]["asset"],
+                        bitshares_instance=self.bitshares
+                    )),
+                    str(self["for_sale"]),
+                )
             return t + "@ " + Price.__repr__(self)
 
     __str__ = __repr__
