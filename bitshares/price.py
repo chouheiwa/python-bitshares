@@ -534,9 +534,8 @@ class FilledOrder(Price):
                 base=kwargs.get("base"),
                 quote=kwargs.get("quote"),
             )
+            self.update(order)
             self["time"] = formatTimeString(order["date"])
-            self["side1_account_id"] = order["side1_account_id"]
-            self["side2_account_id"] = order["side2_account_id"]
 
         elif isinstance(order, dict):
             # filled orders from account history
@@ -547,6 +546,7 @@ class FilledOrder(Price):
                 order,
                 base_asset=base_asset,
             )
+            self.update(order)
             if "time" in order:
                 self["time"] = formatTimeString(order["time"])
             if "account_id" in order:
