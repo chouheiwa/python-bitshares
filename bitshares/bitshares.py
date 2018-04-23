@@ -142,12 +142,11 @@ class BitShares(object):
             self.store = reuse_storage
             self.config = self.store.configStorage
         elif not(self.wallet_path):
-            self.config = { }
+            self.config = {}
             self.store = None
         else:
-            self.store  = CommonStorage(path=self.wallet_path);
+            self.store = CommonStorage(path=self.wallet_path)
             self.config = self.store.configStorage
-
 
         if not self.offline:
             self.connect(node=node,
