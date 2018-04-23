@@ -8,7 +8,7 @@ from .utils import formatTimeString
 from .utils import parse_time, assets_from_string
 
 
-class Price(dict):
+class Price(dict, BlockchainInstance):
     """ This class deals with all sorts of prices of any pair of assets to
         simplify dealing with the tuple::
 
@@ -462,6 +462,7 @@ class Order(Price):
         ):
             """ Load from object 1.7.xxx
             """
+            # Take all the arguments with us
             self.update(args[0])
             super(Order, self).__init__(args[0]["sell_price"], blockchain_instance=self.blockchain)
 
