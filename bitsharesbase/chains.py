@@ -11,4 +11,17 @@ known_chains = {
         "chain_id": "39f5e2ede1f8bc1a3a54a7914414e3779e33193f1f5693510e73cb7a87617447",
         "core_symbol": "TEST",
         "prefix": "TEST"},
+    "Obelisk": {
+        "chain_id": "1cfde7c388b9e8ac06462d68aadbd966b58f88797637d9af805b4560b0e9661e",
+        "core_symbol": "GOV",
+        "prefix": "FEW"},
+    "BDS": {
+        "chain_id": "4a93e8abe6ab5f2b935d692e13eea73cdbfb288959fb41640b829d25b7f4bd84",
+        "core_symbol": "BDS",
+        "prefix": "BDS"
+    },
+    "Scnrfp": {
+        "chain_id": "a8a61755aaa9d2c19a5989490bbc4195f37f147be3db3dddcf0e06d373b397ce",
+        "core_symbol": "SCNRFP",
+        "prefix": "SCNRFP"}
 }
